@@ -74,6 +74,7 @@ class mqConsumer
 			for (auto & msg : messageQ)
 				for (auto & element : listeners)
 					element->notify_messageReceived(&msg);
+			messageQ.clear();
 		};
 };
 ```
@@ -149,4 +150,6 @@ Then simply run the application with:
 ```
 
 Below is an example output from running the application:
-![image](https://github.com/user-attachments/assets/a7a6eff6-04d8-41df-a31f-a8fbadb79ac2)
+![image](https://github.com/user-attachments/assets/7ad0823e-4ae0-44d6-9f43-497b876403e5)
+
+
