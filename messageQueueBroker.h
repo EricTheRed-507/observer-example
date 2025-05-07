@@ -7,9 +7,10 @@
 class mqMessage
 {
 	public:
-        mqMessage(std::string message, int i) { sData = message, iData = i; }
+        mqMessage(std::string message, std::string consumer, int i) { sData = message, sConsumer = consumer, iData = i; }
 		~mqMessage() {};
 
+		std::string sConsumer;
 		std::string sData;
 		int iData;
 };
@@ -17,17 +18,13 @@ class mqMessage
 class mqConsumerObserver
 {
 	public:
-        mqConsumerListener(){} 
-		std::string sName;
+		mqConsumerObserver(){}
         virtual void notify_messageReceived( mqMessage *msg ) = 0;
-
-
 };
 
 class mqConsumer
 {
 	private:
-
 		std::vector<mqConsumerObserver*> listeners;
 		std::vector<mqMessage> messageQ;
 
@@ -40,23 +37,18 @@ class mqConsumer
 				listeners.push_back( l );
 			}
 		}
+
 		void newMessage(mqMessage m)
 		{
 			messageQ.push_back( m );
 			start();
 		}
-		void start( void ) {
-			if(messageQ.size() && listeners.size())
-			{
-				mqMessage msg = messageQ.back();
-				if(listeners[0]->sName[0] == msg.sData[0])
-					listeners[0]->notify_messageReceived(&msg);
-				if(listeners[1]->sName[0] == msg.sData[0])
-						listeners[1]->notify_messageReceived(&msg);
-				messageQ.pop_back();
-			}
-		};
-		void stop( void ) {};
 
-		
+		void start( void ) {
+			for (auto & msg : messageQ)
+				for (auto & element : listeners)
+					element->notify_messageReceived(&msg);
+		};
+
+		void stop( void ) {};
 };
