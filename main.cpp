@@ -5,19 +5,18 @@
 #include <math.h>
 
 int main(int argc, char *argv[]) {
-
-    consumerDB dataSinkA; dataSinkA.sName = "A"; dataSinkA.start();
-    consumerCalculation dataSinkB; dataSinkB.sName = "B"; dataSinkB.start();
+    consumerDB db;
+    consumerCalculation calc;
 
     mqConsumer messageBroker;
-    messageBroker.addListener(&dataSinkA);
-    messageBroker.addListener(&dataSinkB);
+    messageBroker.addListener(&db);
+    messageBroker.addListener(&calc);
 
     for (size_t i = 0; i < 100; i++)
     {
         int iRand = std::rand() % 10;
-        std::string dest = iRand % 2 ? "A" : "B";
-        messageBroker.newMessage(mqMessage(dest + " message " + std::to_string(iRand), iRand));
+        std::string dest = iRand % 2 ? "db" : "calc";
+        messageBroker.newMessage(mqMessage("message " + std::to_string(iRand), dest, iRand));
     }
     
 
