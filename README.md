@@ -111,3 +111,6 @@ Then simply run the application with:
 ```
 ./observerEx
 ```
+
+Below is an example output from running the application:
+![image](https://github.com/user-attachments/assets/a7a6eff6-04d8-41df-a31f-a8fbadb79ac2)
