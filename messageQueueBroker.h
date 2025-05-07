@@ -48,6 +48,7 @@ class mqConsumer
 			for (auto & msg : messageQ)
 				for (auto & element : listeners)
 					element->notify_messageReceived(&msg);
+			messageQ.clear();
 		};
 
 		void stop( void ) {};
