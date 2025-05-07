@@ -6,7 +6,7 @@ This document describes a simplified version of a message queue system which imp
  ## Why this design pattern fits
 The _observer pattern_ is a software design pattern in which an object, named the subject, **maintains a list of its dependents**, called observers, and **notifies them automatically** of any state changes, usually by calling one of their methods. It is often used for implementing **distributed event-handling systems** in event-driven software. 
 >[!IMPORTANT]
-> The bolded phrases above all align with the needs and intent of this system. The aysnchronous message broker needs to message it's list of dependents and notify them in an event-driven way.
+> The bolded phrases above all align with the needs and intent of this system. The asynchronous message broker needs to message its list of dependents and notify them in an event-driven way.
 
 ## UML Diagram
 ![image](https://github.com/user-attachments/assets/417affa5-fa0f-4aed-b39d-36651a4852ca)
@@ -15,7 +15,7 @@ The above class diagram depicts the four classes in this system and relates them
 
 ## Code Description
 ### main.cpp
-```main.cpp``` is the client code in this example. It instantiates the message queue, the consumers (which are the observers), and it sends messages to the message queue. The code exerpt below depicts the creation of the main classes, and where the listener assignment occurs:
+```main.cpp``` is the client code in this example. It instantiates the message queue, the consumers (which are the observers), and it sends messages to the message queue. The code excerpt below depicts the creation of the main classes, and where the listener assignment occurs:
 ```cpp
 consumerDB db;
 consumerCalculation calc;
@@ -37,7 +37,7 @@ for (size_t i = 0; i < 100; i++)
 >The sample code above simply sends a random number 1-10 as part of the message, then randomly assigns "db" or "calc" as the destination for the message
 
 ### messageQueueBroker.h
-This file defines all of the classes and interfaces for the observer pattern.
+This file defines all the classes and interfaces for the observer pattern.
 The class below is the interface for the observers:
 ```cpp
 class mqConsumerObserver
@@ -48,7 +48,7 @@ class mqConsumerObserver
 };
 ```
 
-The class below is the message broker which has the observers assigned to it. It holds the list of observers, which are added through ```addListener(...)```, and within the ```start()``` method it sends out each message as it's recieved to the observers through the interface ```notify_messageReceived( mqMessage *msg )```. 
+The class below is the message broker which has the observers assigned to it. It holds the list of observers, which are added through ```addListener(...)```, and within the ```start()``` method it sends out each message as it's received to the observers through the interface ```notify_messageReceived( mqMessage *msg )```. 
 ```cpp
 class mqConsumer
 {
