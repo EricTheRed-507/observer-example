@@ -1,62 +1,31 @@
 #include "messageQueueBroker.h"
 #include <unistd.h>
-#include <thread>
 
 class consumerDB : public mqConsumerObserver {
-
-    public:
-        void startThread()  {
-            std::thread thread1(idle);
-            thread1.detach();
-        }
-
+    private:
         //simulate database query processing
         static void writeToDB(mqMessage *msg)  {
-            int sleepVal = 10;
-            if(msg == nullptr)
-                printf("--consumerDB idle--\n");
-            else
-            {
-                printf("MsgHandlerA rec: %s \n", msg->sData.c_str());
-                sleepVal = msg->iData;
-            }
-
-            usleep(100000 * sleepVal); //mock processing time via sleep
+            printf("MsgHandlerDB rec: %s \n", msg->sData.c_str());
+            usleep(100000 * msg->iData); //mock processing time via sleep
         }
-
-        static void idle() { while(true) writeToDB(nullptr); }
-
+    public:
         virtual void notify_messageReceived( mqMessage *msg )  {
-            writeToDB(msg);
+            if(msg != nullptr && msg->sConsumer == "db") //only do something if the message is meant for this consumer
+                writeToDB(msg);
         }
 };
 
 
 class consumerCalculation : public mqConsumerObserver {
-
-    public:
-        void startThread()  {
-            std::thread thread1(idle);
-            thread1.detach();
-        }
-
+    private:
         //simulate calculation processing
         static void runCalculations(mqMessage *msg) {
-            int sleepVal = 10;
-            if(msg == nullptr)
-                printf("--consumerCalculation idle--\n");
-            else
-            {
-                printf("MsgHandlerB rec: %s \n", msg->sData.c_str());
-                sleepVal = msg->iData;
-            }
-                
-            usleep(100000 * sleepVal); //mock processing time via sleep
+            printf("MsgHandlerCalc rec: %s \n", msg->sData.c_str());
+            usleep(100000 * msg->iData); //mock processing time via sleep
         }
-
-        static void idle() { while(true) runCalculations(nullptr); }
-
+    public:
         virtual void notify_messageReceived( mqMessage *msg ) {
-            runCalculations(msg);
+            if(msg != nullptr && msg->sConsumer == "calc") //only do something if the message is meant for this consumer
+                runCalculations(msg);
         }
 };
