@@ -9,7 +9,7 @@ The _observer pattern_ is a software design pattern in which an object, named th
 > The bolded phrases above all align with the needs and intent of this system. The aysnchronous message broker needs to message it's list of dependents and notify them in an event-driven way.
 
 ## UML Diagram
-![image](https://github.com/user-attachments/assets/18b3caa1-0d86-4b7c-9b8a-ac948aebccc9)
+![image](https://github.com/user-attachments/assets/417affa5-fa0f-4aed-b39d-36651a4852ca)
 
 The above class diagram depicts the four classes in this system and relates them to the nominal design pattern. The methods in $${\color{red}red}$$ are the observer typical methods, and the methods in $${\color{blue}blue}$$ are implementation specific to this implementation of a message queue.
 
